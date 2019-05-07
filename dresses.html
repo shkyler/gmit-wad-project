@@ -60,11 +60,50 @@
     text-align: center;
     background:#3333cc;
     color: white;
+    margin:0;
   }
   #sub_head{
     /*change the font size for the sub heading*/
     font-size:12px;
   }
+  /* Ensure proper sizing */
+* {
+  box-sizing: border-box;
+}
+
+  .row{
+    display: flex;
+    flex-wrap: wrap;
+    margin:0;
+  }
+
+  /* Create two unequal columns that sits next to each other */
+/* Sidebar/left column */
+.side {
+  flex: 25%; /* Set the width of the sidebar */
+  background-color: #f1f1f1; /* Grey background color */
+  padding: 20px; /* Some padding */
+}
+/* Main column */
+.main {
+  flex: 75%; /* Set the width of the main content */
+  background-color: white; /* White background color */
+  padding: 20px; /* Some padding */
+}
+
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  max-width: 300px;
+  margin: auto;
+  text-align: center;
+  font-family: arial;
+}
+
+.price {
+  color: grey;
+  font-size: 22px;
+}
+
 </style> 
 
 <body>
@@ -77,12 +116,39 @@
     
   </div>
   <div class="navigation">
-    <a href="home.html">View Our Range</a>
+    <a href="home.html">Jeans</a>
+    <a href="shirts.html">Shirts</a>
+    <a href="dresses.html">Dresses</a>
     <a href="compare.html">Compare Products</a>
     <a href="contact.html" class="right">Contact Us</a>
   </div>  
-  <p>
-    This is the main text on of the website
+  <p id="main_page">
+      <!--Divide the main body into a side panel and a main panel-->
+    <div class="row">
+        <div class="side">
+          <h3>View our Range by Category</h3>
+          <input type="radio" name="card"/>Jeans<br>  
+          <input type="radio" name="card"/>Shirts<br>
+          <input type="radio" name="card"/>T-Shirts<br>
+          <input type="radio" name="card"/>Dresses<br>
+
+        </div>
+        <div class="main">
+            <div class="card">
+              <img src="img/products/jeans1.jpg" alt="Skinny Jeans" style="width:100%" width="50px">
+              <h1>Skinny Jeans</h1>
+              <p class="price">€19.99</p>
+              <p>Skinny Jeans for Men, available in Size, S,M,L,XL</p>
+            </div>  
+            <div class="card">
+              <img src="img/products/jeans2.jpg" alt="Flared Jeans" style="width:100%" width="50px">
+              <h1>Flared Jeans</h1>
+              <p class="price">€24.99</p>
+              <p>Flared Jeans for Women, available in Size, S,M,L,XL</p>
+            </div>
+        </div>
+    </div>
+  
   </p>  
   <div class="footer">
     This is a footer
