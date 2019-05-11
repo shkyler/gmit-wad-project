@@ -85,6 +85,7 @@
   flex: 20%; /* Set the width of the sidebar */
   background-color: white; /* Grey background color */
   padding: 20px; /* Some padding */
+  align-content: center;
 }
 /* Main column */
 .main {
@@ -124,6 +125,23 @@
   color: #3333cc;  
   background-color: white;
 }
+rect:hover{
+  fill: black;
+}
+/*format chart height box*/
+#chartHeight{
+  background-color:#3333cc;
+  color:white;
+  font-size: 18px;
+  width: 150px;
+  height: 50px;
+  text-align: center;
+}
+/*format the size of the colour picker*/
+#colourPicker{
+  width: 150px;
+  height: 50px;
+}
 </style> 
 
 <body>
@@ -149,9 +167,17 @@
           <!--Add 3 buttons to the side panel, each button calls a different function when clicked-->
           <h3 style="align-self:centre">Compare Prices</h3>
           <button id="button" onclick="compare('jeans','jeans_price')">Jeans</button><br>
-          <button id="button" onclick="dresses()">Dresses</button><br>  
-          <button id="button" onclick="shirts()">Shirts</button><br> 
-   
+          <button id="button" onclick="compare('dresses', 'dresses_price')">Dresses</button><br>  
+          <button id="button" onclick="compare('shirts', 'shirts_price')">Shirts</button><br> 
+          <br>
+          <h3 style="align-self:centre">Select Chart Height</h3>
+          <select id="chartHeight">
+            <option value="300">300px</option>
+            <option value="600">600px</option>
+            <option value="900">900px</option>
+           </select>        
+           <h3 style="align-self:centre">Select Chart Colour</h3>   
+           <input type="color" id="colourPicker">
         </div>
 
         <div class="main">
@@ -173,19 +199,15 @@ function compare(clothes_label, price_data){
     console.log(data);
 
   // Values for bar chart
-  var height = 300;
+  var height = document.getElementById("chartHeight").value;
   var width = 600;
   var dataCount = data.length;
   var gap = 5;
+  var chartColour = document.getElementById("colourPicker").value;
 
   // Convert prices to numbers (from Strings)
   data.forEach(function(d){
-    x = String(price_data);
-    d.price_data = Number(d.price_data);
-    console.log(x)
-    console.log(price_data)
-    console.log(d.x)
-    console.log(d.jeans_price)
+    d.price_data = Number(eval("d." + price_data));
   });  
 
   //Create a y - scale
@@ -199,7 +221,7 @@ function compare(clothes_label, price_data){
   // Create sn x-scale
   var xScale = d3.scaleBand()
     .domain(data.map(function(d){
-      return d.clothes_label;
+      return eval("d." + clothes_label);
     }))  
     .range([0,width])
 
@@ -212,9 +234,12 @@ function compare(clothes_label, price_data){
   var xAxis = d3.axisBottom()
     .scale(xScale);
 
+  // clear the webpage before creating the SVG contianer
+  d3.select("#svg_area").selectAll("*").remove();  
+
   // Create the SVG space  
   let svgContainer = d3.select("#svg_area").append("svg")
-    .attr("height",800)
+    .attr("height",1000)
     .attr("width",800);
 
   // Create the rectangles for the graph  
@@ -223,7 +248,20 @@ function compare(clothes_label, price_data){
 
   // Set the attributes for the rectangles in the graph  
   myRectangle.enter()
-    .append("rect")
+      .append("rect")
+      // before transition
+      .attr("fill","white")
+      .attr("x", function(d,i){
+        return 50 + ((width/dataCount)* i);
+        })   
+      .attr("height",0)
+      .attr("width",(width/dataCount) - gap) 
+      .attr("y",height)
+
+      // apply a 3 second transtion
+      .transition()
+      .duration(3000) 
+      // set the details for after the transition
       .attr("x", function(d,i){
         return 50 + ((width/dataCount)* i);
         })   
@@ -237,14 +275,7 @@ function compare(clothes_label, price_data){
         return height - yScale(Number(d.price_data));
       })
       .attr("width",(width/dataCount) - gap)
-      .attr("fill",function(d){
-        if (d.price_data<=20){return "blue";}
-        else if(d.price_data <=30){return "green";}
-        else if(d.price_data <=40){return "orange";}
-        else {return "red";}
-      }); 
-
- 
+      .attr("fill",chartColour); 
 
  // Add a new item for the labels
   let myLabels = svgContainer.selectAll("text")
@@ -253,13 +284,23 @@ function compare(clothes_label, price_data){
 // Set the attributes for the labels
   myLabels.enter()
     .append("text")
+      // set the starting co-ords for the labels  
+      .attr("x", function(d,i){
+        return 120 + ((width/dataCount)* i);
+      })    
+      .attr("y",height)
+      //apply a 3 second transition to the labels
+      .transition()
+      .duration(3000)  
+      .ease(d3.easeLinear)
+
       // the x and y attributes are used to position the text
       .attr("x", function(d,i){
         return 120 + ((width/dataCount)* i);
       })   
       // apply the scale to the y-coord of the labels
       .attr("y",function(d){
-        return yScale(d.price_data/2);
+        return yScale((d.price_data)-5);
       })
       // the text can be formatted too
       .attr("text-anchor", "middle")
@@ -288,8 +329,6 @@ function compare(clothes_label, price_data){
         .attr("x", "10")
         .attr("y","3");    
   }) 
-
-
 }
 </script>
 
