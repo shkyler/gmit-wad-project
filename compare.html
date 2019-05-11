@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Page Title</title>
+  <title>The Clothes Line</title>
   <!-- Use the meta tags to tell the browser which character set to use, and how to scate the webpage acoss devices-->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, intial-scale=1">
+  <!--Import d3-->
+  <script src="https://d3js.org/d3.v5.min.js"></script>
 </head>
 <style>
   /* Set the font family */
@@ -60,11 +62,68 @@
     text-align: center;
     background:#3333cc;
     color: white;
+    margin:0;
   }
+
   #sub_head{
-    /*change the font size for the sub heading*/
+  /*change the font size for the sub heading*/
     font-size:12px;
   }
+/* Ensure proper sizing */
+* {
+  box-sizing: border-box;
+}
+  .row{
+    display: flex;
+    flex-wrap: wrap;
+    margin:0;
+  }
+
+/* Create two unequal columns that sits next to each other */
+/* Sidebar/left column */
+.side {
+  flex: 20%; /* Set the width of the sidebar */
+  background-color: white; /* Grey background color */
+  padding: 20px; /* Some padding */
+}
+/* Main column */
+.main {
+  flex: 80%; /* Set the width of the main content */
+  background-color: white; /* White background color */
+  padding: 20px; /* Some padding */
+}
+/*define the default styling for the product card*/
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  max-width: 300px;
+  margin: auto;
+  text-align: center;
+  font-family: arial,Arial, Helvetica, sans-serif;
+}
+/*define the default styling for the product card price*/
+.price {
+  color: grey;
+  font-size: 22px;
+}
+/*define the default styling for the buttons*/
+#button {
+  background-color: #3333cc;
+  border: none;
+  color: white;
+  width:150px;
+  height:60px;
+  margin:2px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  align-self: center;
+}
+/*define the default styling for the button on hover*/
+#button:hover{
+  color: #3333cc;  
+  background-color: white;
+}
 </style> 
 
 <body>
@@ -77,17 +136,162 @@
     
   </div>
   <div class="navigation">
-    <a href="home.html">View Our Range</a>
+    <a href="home.html">Jeans</a>
+    <a href="shirts.html">Shirts</a>
+    <a href="dresses.html">Dresses</a>
     <a href="compare.html">Compare Products</a>
     <a href="contact.html" class="right">Contact Us</a>
   </div>  
-  <p>
-    Compare
+  <p id="main_page">
+      <!--Divide the main body into a side panel and a main panel-->
+    <div class="row">
+        <div class="side">
+          <!--Add 3 buttons to the side panel, each button calls a different function when clicked-->
+          <h3 style="align-self:centre">Compare Prices</h3>
+          <button id="button" onclick="compare('jeans','jeans_price')">Jeans</button><br>
+          <button id="button" onclick="dresses()">Dresses</button><br>  
+          <button id="button" onclick="shirts()">Shirts</button><br> 
+   
+        </div>
+
+        <div class="main">
+          <!--Add an SVG are to manipulate with d3-->
+          <div id="svg_area"></div>
+            </div>  
+        </div>
+    </div>
+  
   </p>  
   <div class="footer">
-    This is a footer
   </div>  
 
 </body>   
+<script>
+function compare(clothes_label, price_data){
+ // Import the CSV file
+ d3.csv("data/clothes_data.csv").then(function(data){
+    console.log(data);
+
+  // Values for bar chart
+  var height = 300;
+  var width = 600;
+  var dataCount = data.length;
+  var gap = 5;
+
+  // Convert prices to numbers (from Strings)
+  data.forEach(function(d){
+    x = String(price_data);
+    d.price_data = Number(d.price_data);
+    console.log(x)
+    console.log(price_data)
+    console.log(d.x)
+    console.log(d.jeans_price)
+  });  
+
+  //Create a y - scale
+  var yScale = d3.scaleLinear()
+    // use the d3.max method to set the max value
+    .domain([0,d3.max(data, function(d){
+      return Number(d.price_data);
+    })])
+    .range([height,0]);  
+
+  // Create sn x-scale
+  var xScale = d3.scaleBand()
+    .domain(data.map(function(d){
+      return d.clothes_label;
+    }))  
+    .range([0,width])
+
+  // Create a y-Axis  
+  var yAxis = d3.axisLeft()
+    .scale(yScale);
+
+  // Create  an x-Axis
+
+  var xAxis = d3.axisBottom()
+    .scale(xScale);
+
+  // Create the SVG space  
+  let svgContainer = d3.select("#svg_area").append("svg")
+    .attr("height",800)
+    .attr("width",800);
+
+  // Create the rectangles for the graph  
+  let myRectangle = svgContainer.selectAll("rect")
+    .data(data);
+
+  // Set the attributes for the rectangles in the graph  
+  myRectangle.enter()
+    .append("rect")
+      .attr("x", function(d,i){
+        return 50 + ((width/dataCount)* i);
+        })   
+      .attr("y",function(d){
+        // a function is used on the y attr to set the baseline
+        // apply the scale to the y co-ord of the bars
+        return yScale(Number(d.price_data));
+      })
+      .attr("height",function(d){
+        //apply the scale to the Height of the bars
+        return height - yScale(Number(d.price_data));
+      })
+      .attr("width",(width/dataCount) - gap)
+      .attr("fill",function(d){
+        if (d.price_data<=20){return "blue";}
+        else if(d.price_data <=30){return "green";}
+        else if(d.price_data <=40){return "orange";}
+        else {return "red";}
+      }); 
+
+ 
+
+ // Add a new item for the labels
+  let myLabels = svgContainer.selectAll("text")
+    .data(data);
+
+// Set the attributes for the labels
+  myLabels.enter()
+    .append("text")
+      // the x and y attributes are used to position the text
+      .attr("x", function(d,i){
+        return 120 + ((width/dataCount)* i);
+      })   
+      // apply the scale to the y-coord of the labels
+      .attr("y",function(d){
+        return yScale(d.price_data/2);
+      })
+      // the text can be formatted too
+      .attr("text-anchor", "middle")
+      .attr("font-family", "sans-serif")
+      .attr("fill", "white")
+      .text(function(d){
+        return "\u20AC" + d.price_data
+      });  
+
+  // Add the y-Axis to the SVG area  (always last!)  
+  svgContainer.append("g")  
+      // move the y-axis
+      .attr("transform", "translate(45,0)")
+      .call(yAxis);  
+  //add the x-axis to the container    
+  svgContainer.append("g")
+      // translate is related to the height of the chart and the start point of the first rectangle
+      .attr("transform", "translate(50," + height + ")")
+      .call(xAxis)
+      // format the labels
+      .selectAll("text")
+        //rotate the text
+        .attr("transform", "rotate(60)")
+        // change the start point
+        .attr("text-anchor", "start")
+        .attr("x", "10")
+        .attr("y","3");    
+  }) 
+
+
+}
+</script>
+
 
 </html>  
