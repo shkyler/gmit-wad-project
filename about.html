@@ -84,13 +84,42 @@
     <a href="about.html">About Us</a>
     <a href="contact.html" class="right">Contact Us</a>
   </div>  
-  <p>
-    Contact
-  </p>  
+  <div style="margin:40px">
+    <h3>About Us</h3>
+      <img src="img/about1.jpg" align="right" border="5" hspace="10" width="400ˇpx">
+    <p>
+      We started life in the 1960s in Dublin's Smithfield, when <i>"Fast"</i> Frankie Byrne open a market stall selling clothes to the local populus. 
+      Catering for the poor and very poor people in Dublins inner city, Frankies enterprising spirit and crafty business know-how enabled him to turn a profit during a very hard time in Dublins economy.
+      Having decided in the early 1970s that there was possibly more money to be made in the sale of smuggled fuel from Belfast, Frankies focus shifted. Unfortunately, this was his undoing as he ended up spending
+      the rest of the decade in prison for fuel laundering. During this time, his eldest son decided to take the reins.
+    </p>
+    <p>
+      In 1973, Fred Byrne took control of the company as his father served his prison sentence. Fred had much of his father in him and was a shrewd business man at the young age of 19. Deciding to focus on the 
+      legimate section of the business he continued to sell clothes in the Smithfield market stall, growing the business until he could finally open his first shop on O'Connell street in 1979. People flocked to the new store
+      drawn in by the high quality of the merchandise and the low prices of the goods. On release from prison in 1980, Frankie returned to the helm deciding to expand the business further. Three more inner city shops were opened 
+      by the end of the decade.
+    </p>
+    <img src="img/about2.jpg" align="left" hspace="10" border="5" width="200ˇpx"><br>
+    <p>As the 1990s dawned, there was an explosion in retail in suburban shopping centres an the <i>Clothesline</i> (as we were now known), expanded further into these centres. At this time our workforce grew exponentially peaking in 1999 at 350. 
+    As the internet age dawned, the Byrnes decided to open a webshop to support the core retail business. Slow to take hold at first, people eventually became more comfortable shopping on line with us until in 2010 our online shop outsold our retail premeises for the first time in our history.</p>
+    <p>Frankie died in 2012, just as the brick-and-mortar retail spaces began to decline rapidly. By 2018, all of the retails stores were closed, but a thriving online business is still going strong, headed up by a a third generation of Byrnes. Frankie's son Fred, (now in his 60s) still works the Smithfield stall where he descibes business as 'OK'.</p>
+  </div>
+  <!--Add an SVG are to manipulate with d3-->
+  <div id="svg_area"></div>
+
+
   <div class="footer">
-    This is a footer
   </div>  
 
 </body>   
+<script>
+
+  // Create the SVG space  
+  let svgContainer = d3.select("#svg_area").append("svg")
+    .attr("height",1000)
+    .attr("width",800);
+
+</script>
+
 
 </html>  
