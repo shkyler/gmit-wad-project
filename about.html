@@ -67,7 +67,6 @@
     /*change the font size for the sub heading*/
     font-size:12px;
   }
-
   .center {
    /*Use CSS to center the images*/ 
   display: block;
@@ -131,55 +130,52 @@ rect:hover {
 <script>
   height = 800;
   width = 440;
-
+  xOffset = 450;
+  yOffset = 40;
+  barWidth = 80;
   // define sale data
   var avg_sales = [200,300,400,500,600];
-  var decade = ["1960s", "1970s", "1980s", "1990s", "2000s"]
-
+  var decade = ["1960s", "1970s", "1980s", "1990s", "2000s"];
+  
   // create a Y Scale
   var yScale = d3.scaleLinear()
     .domain([0,d3.max(avg_sales)])
-    .range(0,height);
+    .range([0,height]);
 
+    
   // clear the webpage before creating the SVG contianer
   d3.select("#svg_area").selectAll("*").remove();  
-
-
   // Create the SVG space  
   let svgContainer = d3.select("#svg_area").append("svg")
     .attr("height",1000)
     .attr("width",1000);
-
   // create the bars
   let myRectangle = svgContainer.selectAll("rect")
     .data(avg_sales);
-
   myRectangle.enter()
     .append("rect")
       // Starting position
-      .attr("x", function(d,i){return 450 + (i*90);})
+      .attr("x", function(d,i){return xOffset + (i*90);})
       .attr("y", height)
-      .attr("width", 80)
+      .attr("width", barWidth)
       .attr("fill", "#3333cc")
       //apply transition
       .transition()
       .duration(3000)
       // finishing position
-      .attr("x", function(d,i){return 450 + (i*90);})
-      .attr("y",function(d){return 800 - d;})
-      .attr("height",function(d){return d;} )
-      .attr("width", 80)
+      .attr("x", function(d,i){return xOffset + (i*90);})
+      .attr("y",function(d){return height - yScale(d);})
+      .attr("height",function(d){return yScale(d);} )
+      .attr("width", barWidth)
       .attr("fill", "red");
-
    // create the labels
    let myLabels= svgContainer.selectAll("text")
     .data(avg_sales);
-
   myLabels.enter()
     .append("text")
       // starting position
-      .attr("x", function(d,i){return 490 + (i*90);})
-      .attr("y", 800)
+      .attr("x", function(d,i){return xOffset + (barWidth/2) + (i*90);})
+      .attr("y", height)
       .attr("text-anchor", "middle")
       .attr("font-size", "15px")
       .attr("fill", "white")
@@ -190,15 +186,14 @@ rect:hover {
       .delay(1000)
       .ease(d3.easeBounceOut)
       // finishing position
-      .attr("x", function(d,i){return 490 + (i*90);})
-      .attr("y", function(d){return 840 - d;})
+      .attr("x", function(d,i){return xOffset + (barWidth/2) + (i*90);})
+      .attr("y", function(d){return height + yOffset - yScale(d);})
       .attr("text-anchor", "middle")
       .attr("font-size", "15px")
       .attr("fill", "white")
       .text(function(d){return "\u20AC" + d + "m";}) 
-
     
 </script>
 
 
-</html>  
+</html> 

@@ -211,7 +211,7 @@ function compare(clothes_label, price_data){
     d.price_data = Number(eval("d." + price_data));
   });  
 
-  //Create a y - scale
+  //Create a y-scale
   var yScale = d3.scaleLinear()
     // use the d3.max method to set the max value
     .domain([0,d3.max(data, function(d){
@@ -219,7 +219,7 @@ function compare(clothes_label, price_data){
     })])
     .range([height,0]);  
 
-  // Create sn x-scale
+  // Create an x-scale
   var xScale = d3.scaleBand()
     .domain(data.map(function(d){
       return eval("d." + clothes_label);
