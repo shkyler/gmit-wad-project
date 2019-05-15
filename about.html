@@ -78,6 +78,41 @@
 rect:hover {
   fill:black;
 }
+/*define the default styling for the buttons*/
+#button {
+  background-color: #3333cc;
+  border: none;
+  color: white;
+  width:150px;
+  height:60px;
+  margin:20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  align-self: center;
+}
+/*define the default styling for the button on hover*/
+#button:hover{
+  color: #3333cc;  
+  background-color: white;
+}
+/*format chart height box*/
+#chartHeight{
+  background-color:#3333cc;
+  color:white;
+  font-size: 18px;
+  width: 150px;
+  height: 50px;
+  text-align: center;
+  margin:20px;
+}
+/*format the size of the colour picker*/
+#colourPicker{
+  width: 150px;
+  height: 50px;
+  margin: 20px;
+}
 </style> 
 
 <body>
@@ -100,10 +135,10 @@ rect:hover {
   <div style="margin:40px">
     <h3>About Us</h3>
     <p>
-      We started life in the 1960s in Dublin's Smithfield, when <i>"Fast"</i> Frankie Byrne open a market stall selling clothes to the local populus. 
-      Catering for the poor and very poor people in Dublins inner city, Frankies enterprising spirit and crafty business know-how enabled him to turn a profit during a very hard time in Dublins economy.
-      Having decided in the early 1970s that there was possibly more money to be made in the sale of smuggled fuel from Belfast, Frankies focus shifted. Unfortunately, this was his undoing as he ended up spending
-      the rest of the decade in prison for fuel laundering. During this time, his eldest son decided to take the reins.
+      We started life in the 1960s in Dublin's Smithfield, when <i>"Fast"</i> Frankie Byrne open a market stall selling clothes to the local population. 
+      Catering for the poor and very poor people in Dublins inner city, Frankies enterprising spirit and crafty business know-how enabled him to turn a profit during a very hard time for Dublin's economy.
+      Having decided in the early 1970s that there was more money to be made in the sale of smuggled fuel from Belfast, Frankies focus shifted. Unfortunately, this was his downfall as he ended up spending
+      the rest of the decade in prison for fuel laundering. During this time, his eldest son decided to give it a go.
     </p><br>
     <img src="img/about1.jpg" class="center" border="5" hspace="10" width="400ˇpx"><br>
     <p class="center"><b><i>Frankie's Original Stall c. 1967</i></b></p>
@@ -115,24 +150,34 @@ rect:hover {
     </p><br>
     <img src="img/about2.jpg" hspace="10" class="center" border="5" width="200ˇpx"><br>
     <p class="center"><b><i>Frankie Byrne shortly before his death in 2012</i></b></p>
-    <p>As the 1990s dawned, there was an explosion in retail in suburban shopping centres an the <i>Clothesline</i> (as we were now known), expanded further into these centres. At this time our workforce grew exponentially peaking in 1999 at 350. 
-    As the internet age dawned, the Byrnes decided to open a webshop to support the core retail business. Slow to take hold at first, people eventually became more comfortable shopping on line with us until in 2010 our online shop outsold our retail premeises for the first time in our history.</p>
-    <p>Frankie died in 2012, just as the brick-and-mortar retail spaces began to decline rapidly. By 2018, all of the retails stores were closed, but a thriving online business is still going strong, headed up by a a third generation of Byrnes. Frankie's son Fred, (now in his 60s) still works the Smithfield stall where he descibes business as 'OK'.</p><br>
+    <p>As the 1990s dawned, there was an explosion in retail in suburban shopping centers and <i>The Clothes Line</i> (as we were now known), expanded further into these centers. At this time our workforce grew exponentially peaking in 1999 at 350. 
+    As the internet age dawned, the Byrnes decided to open a webshop to support the core retail business. Slow at first, people eventually became more comfortable shopping online with us until in 2010 our online shop outsold our retail premeises for the first time in our history.</p>
+    <p>Frankie died in 2012, just as the brick-and-mortar retail spaces began to decline rapidly. By 2018, all of the retails stores were closed, but a thriving online business is still going strong, headed up by a a third generation of the Byrne Family. Frankie's son Fred, (now in his 60s) still works the Smithfield stall where he describes business as 'OK'.</p><br>
   </div>
 
-  <h3>View Our Sales History</h3>
+  <h3 style="margin:20px">View Our Sales History</h3><br>
   <!--Add an SVG are to manipulate with d3-->
   <div id="svg_area"></div>
+  <button id="button" onclick="drawChart()">Draw Sales Chart</button><br>
+    <select id="chartHeight">
+      <option value="300">300px</option>
+      <option value="400">400px</option>
+      <option value="500">500px</option>
+    </select><br>
+    <input type="color" id="colourPicker"><br>
+
   <div class="footer">
   </div>  
 
 </body>   
 <script>
-  height = 800;
-  width = 440;
-  xOffset = 450;
-  yOffset = 40;
-  barWidth = 80;
+function drawChart(){
+  var height = document.getElementById("chartHeight").value;
+  var width = 440;
+  var xOffset = 450;
+  var yOffset = 40;
+  var barWidth = 80;
+  var chartColour = document.getElementById("colourPicker").value;
 
   // define sales data
   var avg_sales = [200,300,400,500,600];
@@ -160,9 +205,10 @@ rect:hover {
 
   // clear the webpage before creating the SVG contianer
   d3.select("#svg_area").selectAll("*").remove();  
+
   // Create the SVG space  
   let svgContainer = d3.select("#svg_area").append("svg")
-    .attr("height",1000)
+    .attr("height",(500))
     .attr("width",1000);
   // create the bars
   let myRectangle = svgContainer.selectAll("rect")
@@ -182,7 +228,7 @@ rect:hover {
       .attr("y",function(d){return yScale(d);})
       .attr("height",function(d){return height - yScale(d);} )
       .attr("width", barWidth)
-      .attr("fill", "red");
+      .attr("fill", chartColour);
    // create the labels
    let myLabels= svgContainer.selectAll("text")
     .data(avg_sales);
@@ -226,7 +272,7 @@ rect:hover {
         .attr("text-anchor", "start")
         .attr("x", "10")
         .attr("y","3");      
-    
+}  
 </script>
 
 
