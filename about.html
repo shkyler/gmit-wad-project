@@ -141,7 +141,7 @@ rect:hover {
   // create a y-scale
   var yScale = d3.scaleLinear()
     .domain([0,d3.max(avg_sales)])
-    .range([0,height]);
+    .range([height,0]);
 
   // Create an x-scale
   var xScale = d3.scaleBand()
@@ -179,8 +179,8 @@ rect:hover {
       .duration(3000)
       // finishing position
       .attr("x", function(d,i){return xOffset + (i*90);})
-      .attr("y",function(d){return height - yScale(d);})
-      .attr("height",function(d){return yScale(d);} )
+      .attr("y",function(d){return yScale(d);})
+      .attr("height",function(d){return height - yScale(d);} )
       .attr("width", barWidth)
       .attr("fill", "red");
    // create the labels
@@ -202,11 +202,30 @@ rect:hover {
       .ease(d3.easeBounceOut)
       // finishing position
       .attr("x", function(d,i){return xOffset + (barWidth/2) + (i*90);})
-      .attr("y", function(d){return height + yScale(yOffset) - yScale(d);})
+      .attr("y", function(d){return yScale(d) + yOffset;})
       .attr("text-anchor", "middle")
       .attr("font-size", "15px")
       .attr("fill", "white")
       .text(function(d){return "\u20AC" + d + "m";}) 
+
+  // Add the y-Axis to the SVG area  (always last!)  
+  svgContainer.append("g")  
+      // move the y-axis
+      .attr("transform", "translate(" + (xOffset-10) + ",0)")
+      .call(yAxis);  
+  //add the x-axis to the container    
+  svgContainer.append("g")
+      // translate is related to the height of the chart and the start point of the first rectangle
+      .attr("transform", "translate(" + xOffset + "," + height + ")")
+      .call(xAxis)
+      // format the labels
+      .selectAll("text")
+        //rotate the text
+        .attr("transform", "rotate(60)")
+        // change the start point
+        .attr("text-anchor", "start")
+        .attr("x", "10")
+        .attr("y","3");      
     
 </script>
 
