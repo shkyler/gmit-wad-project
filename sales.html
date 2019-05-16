@@ -160,7 +160,8 @@ rect:hover{
     <a href="compare.html">Compare Products</a>
     <a href="sales.html">View Sales</a>
     <a href="about.html">About Us</a>
-    <a href="contact.html" class="right">Contact Us</a>
+    <a href="contact.html">Contact Us</a>
+    <a href="login.html" class="right">Log In</a>
   </div>  
   <p id="main_page">
       <!--Divide the main body into a side panel and a main panel-->
@@ -231,7 +232,7 @@ function drawChart(){
   // Create the SVG space  
   let svgContainer = d3.select("#svg_area").append("svg")
     .attr("height",(500))
-    .attr("width",1000);
+    .attr("width",800);
   // create the bars
   let myRectangle = svgContainer.selectAll("rect")
     .data(avg_sales);

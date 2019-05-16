@@ -65,7 +65,7 @@
     /*change the font size for the sub heading*/
     font-size:12px;
   }
-  /*define the default styling for the buttons*/
+    /*define the default styling for the buttons*/
 #button {
   background-color: #3333cc;
   border: none;
@@ -96,61 +96,58 @@
     
   </div>
   <div class="navigation">
-      <a href="home.html">Jeans</a>
-      <a href="shirts.html">Shirts</a>
-      <a href="dresses.html">Dresses</a>
-      <a href="compare.html">Compare Products</a>
-      <a href="sales.html">View Sales</a>
-      <a href="about.html">About Us</a>
-      <a href="contact.html">Contact Us</a>
-      <a href="login.html" class="right">Log In</a>
+    <a href="home.html">Jeans</a>
+    <a href="shirts.html">Shirts</a>
+    <a href="dresses.html">Dresses</a>
+    <a href="compare.html">Compare Products</a>
+    <a href="sales.html">View Sales</a>
+    <a href="about.html">About Us</a>
+    <a href="contact.html">Contact Us</a>
+    <a href="login.html" class="right">Log In</a>
   </div>  
-  <div style="background-color: lightgray; margin: 100px;padding:30px; font-size:15px"> 
-    <!--Style the form-->
-      <div style="float:right">
-          <h3>Query Details: </h3><br>
-          <textarea cols="70" rows="20">
-          Please type your query details here...
-          </textarea>  
+  <p>   <!--Style the form-->  
+      <div style="background-color: lightgray; margin: 100px;padding:30px; font-size:25px"> 
+          
+          
+          <h3>Log in</h3>
+          <p>Please enter login details for the Clothes Line below:</p>
+          <form>
+            <!--Add the elements for the form-->
+              <b>User Name:</b> <br>
+              <input id="uname" style="margin-top:3px;margin:3px;height: 30px; width: 250px"/> <br>
+              <b>Password:</b><br>
+              <input id="pword" type="password" style="margin-top:3px;margin:3px;height: 30px;width:250px"/><br>
+              <input id="button" onclick=login() value="Log In" style="margin-left: 400px"> 
+          </form>  
         </div>
-    
-    <h3>Contact Us</h3>
-    <p>Please submit all enquiries using the form below:</p>
-    <form>
-      <!--Add the elements for the form-->
-        <b>First Name:</b> <br>
-        <input id="fname" style="margin-top:3px;margin:3px" required/> <br>
-        <b>Last Name:</b><br>
-        <input id="lname" style="margin-top:3px;margin:3px" required/><br>
-        <b>Email Address:</b><br>
-        <input id="email_add" type="email" style="margin-top:3px;margin:3px" required/><br>
-        <b>Phone Number:</b><br>
-        <input id="phone_no"type="number" length="16" style="margin-top:3px;margin:3px" required/><br>
-        <b>Date of Birth: </b><br>
-        <input id="DOB "type="date" style="margin-top:3px;margin:3px"required/><br>
-        <b>Gender:</b><br>
-        <input type="radio" name="gender" value="Male" style="margin-top:5px;margin:5px"> Male<br>  
-        <input type="radio" name="gender" value="Female" style="margin-top:5px;margin:5px"> Female<br> 
-        <input id="button" type="submit" onclick="submission()" value="Submit Query" style="margin-left: 400px"> 
-    </form>  
-  </div>
-  
-
   </p>  
   <div class="footer">
   </div>  
 
 </body>   
 <script>
-// create a function to action the submit button  
-function submission(){
-  // store the information in variables
-  var first_name = document.getElementById("fname").value
-  var last_name = document.getElementById("lname").value
-  var email = document.getElementById("email_add").value
-  //acknowledge the query with an alert
-  alert("Hi " + first_name + " " + last_name + ", thanks for the query, we will reply at " + email)
-}
+// create a function to action the login button  
+function login(){
+  // define the allowed username and password
+  var allowed_user = "patrick"
+  var allowed_password = "password"
 
+  // store the entered information in variables
+  var log_user = document.getElementById("uname").value
+  var log_password = document.getElementById("pword").value
+ 
+  // check to see is are the credentials valid
+  if(log_user === allowed_user &&  log_password === allowed_password){
+    // if successful - redirect to the home page
+    window.location.href = "home.html";
+  }
+  else{
+    // otherwise print an error message
+    alert("Incorrect User Name or Password, Try Again!")
+  }
+  
+}
 </script>
+
+
 </html>  
