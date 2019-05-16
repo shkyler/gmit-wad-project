@@ -130,6 +130,7 @@ rect:hover {
     <a href="dresses.html">Dresses</a>
     <a href="compare.html">Compare Products</a>
     <a href="about.html">About Us</a>
+    <a href="sales.html">View Sales</a>
     <a href="contact.html" class="right">Contact Us</a>
   </div>  
   <div style="margin:40px">
@@ -154,125 +155,10 @@ rect:hover {
     As the internet age dawned, the Byrnes decided to open a webshop to support the core retail business. Slow at first, people eventually became more comfortable shopping online with us until in 2010 our online shop outsold our retail premeises for the first time in our history.</p>
     <p>Frankie died in 2012, just as the brick-and-mortar retail spaces began to decline rapidly. By 2018, all of the retails stores were closed, but a thriving online business is still going strong, headed up by a a third generation of the Byrne Family. Frankie's son Fred, (now in his 60s) still works the Smithfield stall where he describes business as 'OK'.</p><br>
   </div>
-
-  <h3 style="margin:20px">View Our Sales History</h3><br>
-  <!--Add an SVG are to manipulate with d3-->
-  <div id="svg_area"></div>
-  <button id="button" onclick="drawChart()">Draw Sales Chart</button><br>
-    <select id="chartHeight">
-      <option value="300">300px</option>
-      <option value="400">400px</option>
-      <option value="500">500px</option>
-    </select><br>
-    <input type="color" id="colourPicker"><br>
-
   <div class="footer">
-  </div>  
-
 </body>   
 <script>
-function drawChart(){
-  var height = document.getElementById("chartHeight").value;
-  var width = 440;
-  var xOffset = 450;
-  var yOffset = 40;
-  var barWidth = 80;
-  var chartColour = document.getElementById("colourPicker").value;
 
-  // define sales data
-  var avg_sales = [200,300,400,500,600];
-  var decade = ["1960s", "1970s", "1980s", "1990s", "2000s"];
-  
-  // create a y-scale
-  var yScale = d3.scaleLinear()
-    .domain([0,d3.max(avg_sales)])
-    .range([height,0]);
-
-  // Create an x-scale
-  var xScale = d3.scaleBand()
-    .domain(decade.map(function(d){
-      return d;
-    }))  
-    .range([0,width]);
-
-  // Create a y-Axis  
-  var yAxis = d3.axisLeft()
-    .scale(yScale);
-
-  // Create  an x-Axis
-  var xAxis = d3.axisBottom()
-    .scale(xScale);  
-
-  // clear the webpage before creating the SVG contianer
-  d3.select("#svg_area").selectAll("*").remove();  
-
-  // Create the SVG space  
-  let svgContainer = d3.select("#svg_area").append("svg")
-    .attr("height",(500))
-    .attr("width",1000);
-  // create the bars
-  let myRectangle = svgContainer.selectAll("rect")
-    .data(avg_sales);
-  myRectangle.enter()
-    .append("rect")
-      // Starting position
-      .attr("x", function(d,i){return xOffset + (i*90);})
-      .attr("y", height)
-      .attr("width", barWidth)
-      .attr("fill", "#3333cc")
-      //apply transition
-      .transition()
-      .duration(3000)
-      // finishing position
-      .attr("x", function(d,i){return xOffset + (i*90);})
-      .attr("y",function(d){return yScale(d);})
-      .attr("height",function(d){return height - yScale(d);} )
-      .attr("width", barWidth)
-      .attr("fill", chartColour);
-   // create the labels
-   let myLabels= svgContainer.selectAll("text")
-    .data(avg_sales);
-  myLabels.enter()
-    .append("text")
-      // starting position
-      .attr("x", function(d,i){return xOffset + (barWidth/2) + (i*90);})
-      .attr("y", height)
-      .attr("text-anchor", "middle")
-      .attr("font-size", "15px")
-      .attr("fill", "white")
-      .text(function(d){return "\u20AC" + d + "m";})  
-      //apply transition
-      .transition()
-      .duration(4000)
-      .delay(1000)
-      .ease(d3.easeBounceOut)
-      // finishing position
-      .attr("x", function(d,i){return xOffset + (barWidth/2) + (i*90);})
-      .attr("y", function(d){return yScale(d) + yOffset;})
-      .attr("text-anchor", "middle")
-      .attr("font-size", "15px")
-      .attr("fill", "white")
-      .text(function(d){return "\u20AC" + d + "m";}) 
-
-  // Add the y-Axis to the SVG area  (always last!)  
-  svgContainer.append("g")  
-      // move the y-axis
-      .attr("transform", "translate(" + (xOffset-10) + ",0)")
-      .call(yAxis);  
-  //add the x-axis to the container    
-  svgContainer.append("g")
-      // translate is related to the height of the chart and the start point of the first rectangle
-      .attr("transform", "translate(" + xOffset + "," + height + ")")
-      .call(xAxis)
-      // format the labels
-      .selectAll("text")
-        //rotate the text
-        .attr("transform", "rotate(60)")
-        // change the start point
-        .attr("text-anchor", "start")
-        .attr("x", "10")
-        .attr("y","3");      
-}  
 </script>
 
 
