@@ -107,7 +107,7 @@
   font-size: 22px;
 }
 /*define the default styling for the buttons*/
-#button {
+.button {
   background-color: #3333cc;
   border: none;
   color: white;
@@ -121,7 +121,7 @@
   align-self: center;
 }
 /*define the default styling for the button on hover*/
-#button:hover{
+.button:hover{
   color: #3333cc;  
   background-color: white;
 }
@@ -168,9 +168,9 @@ rect:hover{
         <div class="side">
           <!--Add 3 buttons to the side panel, each button calls a different function when clicked-->
           <h3 style="align-self:centre">Compare Prices</h3>
-          <button id="button" onclick="compare('jeans','jeans_price')">Jeans</button><br>
-          <button id="button" onclick="compare('dresses', 'dresses_price')">Dresses</button><br>  
-          <button id="button" onclick="compare('shirts', 'shirts_price')">Shirts</button><br> 
+          <button class="button" onclick="compare('jeans','jeans_price')">Jeans</button><br>
+          <button class="button" onclick="compare('dresses', 'dresses_price')">Dresses</button><br>  
+          <button class="button" onclick="compare('shirts', 'shirts_price')">Shirts</button><br> 
           <br>
           <h3 style="align-self:centre">Select Chart Height</h3>
           <select id="chartHeight">
