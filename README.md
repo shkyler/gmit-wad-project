@@ -14,16 +14,11 @@ The repository contains:
 
 ### Dependancies
 
-The dependencies for the Python Application are:
-* A web browser suitable to running HTML5
+The dependencies for the Web Application are:
+* A web browser suitable for running HTML5
 * A python 3 webserver for serving the d3 sites locally
 
 The <a href="https://www.anaconda.com/distribution/">Anaconda</a> distribution of Python is recomended.
-
-The webserver is easy to set up once Python is installed.
-1. Using the terminal of your computer browse to the folder where you have cloned this repo
-1. Type `python -m http.server` to start a local server
-1. Open a browser and browse to http://localhost:8000 and open the files from there
 
 ### Instructions for running the software
 
@@ -33,11 +28,12 @@ The software can be downloaded and run on a machine as follows:
 ```
 git clone https://github.com/shkyler/gmit-wad-project.git
 ```
+
 * Start a python webserver
 1. The webserver is easy to set up once Python is installed.
 1. Using the terminal of your computer browse to the folder where you have cloned this repo
-1. Type `python -m http.server` to start a local server
-1. Open a browser and browse to http://localhost:8000/login.html and open the files from there
+1. Type `python -m http.server` to start a local web server
+1. Open a browser and browse to http://localhost:8000/login.html
 1. Username is `patrick`
 1. Password is `password`
 
